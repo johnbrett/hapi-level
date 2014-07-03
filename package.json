@@ -1,0 +1,22 @@
+{
+  "name": "hapi-level",
+  "version": "0.0.1",
+  "description": "LevelDB service provider",
+  "main": "index.js",
+  "author": "John Brett",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/johnbrett/hapi-level.git"
+  },
+  "keywords": [
+    "hapi",
+    "level",
+    "leveldb",
+    "hapijs"
+  ],
+  "bugs": {
+    "url": "https://github.com/johnbrett/hapi-level/issues"
+  },
+  "homepage": "https://github.com/johnbrett/hapi-level"
+}
