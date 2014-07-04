@@ -3,6 +3,8 @@ hapi-level
 
 A simple LevelBD plugin for Hapi.
 
+[![Build Status](https://travis-ci.org/johnbrett/hapi-level.svg?branch=master)](https://travis-ci.org/johnbrett/hapi-level)
+
 Register plugin:
 
 ```javascript
