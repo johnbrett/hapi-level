@@ -3,14 +3,20 @@ hapi-level
 
 A simple LevelBD plugin for Hapi.
 
-[[![Build Status](https://travis-ci.org/johnbrett/hapi-level.svg?branch=master)](https://travis-ci.org/johnbrett/hapi-level) [![Dependency Status](https://david-dm.org/johnbrett/hapi-level.svg)](https://david-dm.org/johnbrett/hapi-level)
+[![Build Status](https://travis-ci.org/johnbrett/hapi-level.svg?branch=master)](https://travis-ci.org/johnbrett/hapi-level) [![Dependency Status](https://david-dm.org/johnbrett/hapi-level.svg)](https://david-dm.org/johnbrett/hapi-level)
+
+[![NPM](https://nodei.co/npm/hapi-level.png?stars&downloads)](https://nodei.co/npm/hapi-level/)
 
 Register plugin:
 
 ```javascript
 var server = Hapi.createServer('0.0.0.0', 8000);
 server.pack.register([
-    { plugin: require('hapi-level') }
+    { 
+        plugin: require('hapi-level'),
+        data: {
+            data: './data' // This is set too ./data by default, but is configurable
+        } }
   ], function() {
     server.start(function () {
         console.log('Server started at: ' + server.info.uri);

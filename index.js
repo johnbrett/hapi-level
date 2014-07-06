@@ -1,7 +1,10 @@
 var Level = require('level')
-var db = Level('./data')
 
 exports.register = function(plugin, options, next) {
+
+	var data = options.data || './data'
+	var db = Level(data)
+
 	plugin.expose('db', db)
 	next()
 }
