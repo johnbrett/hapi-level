@@ -37,7 +37,7 @@ Lab.experiment('plugin', function () {
         server.pack.register({
             plugin: require('../index'),
             options: {
-            	data: './data'
+                path: './data'
             }
         }, function(err) {
             Lab.expect(err).to.equal(undefined);
@@ -49,7 +49,7 @@ Lab.experiment('plugin', function () {
         server.pack.register({
             plugin: require('../index'),
             options: {
-            	data: './data2'
+                path: './data_test2'
             }
         }, function(err) {
             Lab.expect(err).to.equal(undefined);
@@ -58,10 +58,35 @@ Lab.experiment('plugin', function () {
                 var db = server.plugins['hapi-level'].db
 
                 db.put('name', 'Level', function (err) {
-                  	db.get('name', function (err, value) {
+                    db.get('name', function (err, value) {
                         Lab.expect(value).to.equal('Level');
                         done();
-                  	})
+                    })
+                })
+            })
+        })
+    });
+
+    Lab.test('Testing initialisaation with extra config', function (done) {
+        server.pack.register({
+            plugin: require('../index'),
+            options: {
+                path: './data_test2',
+                config: {
+                    valueEncoding: 'json'
+                }
+            }
+        }, function(err) {
+            Lab.expect(err).to.equal(undefined);
+
+            server.start(function(){
+                var db = server.plugins['hapi-level'].db
+
+                db.put('name', 'Level', function (err) {
+                    db.get('name', function (err, value) {
+                        Lab.expect(value).to.equal('Level');
+                        done();
+                    })
                 })
             })
         })

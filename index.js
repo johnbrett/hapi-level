@@ -1,9 +1,12 @@
 var Level = require('level')
+var Sublevel = require('level-sublevel')
 
 exports.register = function(plugin, options, next) {
 
-	var data = options.data || './data'
-	var db = Level(data)
+	var path = options.path || './data'
+    var config = options.config || {}
+
+	var db = Sublevel(Level(path, config))
 
 	plugin.expose('db', db)
 	next()
