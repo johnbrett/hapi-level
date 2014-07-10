@@ -43,7 +43,7 @@ var db = plugin.plugins['hapi-level'].db // access in a hapi plugin
 db.put('name', 'Level', function (err) {
       if (err) return console.log('Ooops!', err) // some kind of I/O error
 
-      db.get('name', function (err, value) {
+      db.get('two', function (err, value) {
         if (err) return console.log('Ooops!', err) // likely the key was not found
 
         console.log('name=' + value)
@@ -54,14 +54,29 @@ db.put('name', 'Level', function (err) {
 // Sublevel is also available to use for sectioning of data, similar to SQL tables
 var users = db.sublevel('users') 
 
-users.put('name', 'Level', function (err) {
+users.put('two', {id: 2, name: 'Level'}, function (err) {
       if (err) return console.log('Ooops!', err) // some kind of I/O error
 
-      users.get('name', function (err, value) {
+      users.get('two', function (err, value) {
         if (err) return console.log('Ooops!', err) // likely the key was not found
 
-        console.log('name=' + value)
+        console.log(value) // would output {id: 2, name: 'Level'}
       })
     })
+})
+
+// You can even use indexes from the level-mapped-index module
+users.registerIndex('id', function (key, value, emit) {
+    //value = JSON.parse(value) // **This would be required if we were not already using json for valueEncoding
+    if (value.id) {
+        emit(value.id)
+    }
+})
+
+users.getBy('id', 2, function(err, data) {
+    // data will be:
+    // [
+    //      { key: "two", value: {id: 2, name: 'Level' } }
+    // ]
 })
 ```
