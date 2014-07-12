@@ -65,15 +65,16 @@ users.put('two', {id: 2, name: 'Level'}, function (err) {
     })
 })
 
-// You can even use indexes from the level-mapped-index module
-users.registerIndex('id', function (key, value, emit) {
+// You can even use indexes from the level-mapped-index module 
+// Note: This doesn't work on the sublevels just yet, currently working on adding this
+db.registerIndex('id', function (key, value, emit) {
     //value = JSON.parse(value) // **This would be required if we were not already using json for valueEncoding
     if (value.id) {
         emit(value.id)
     }
 })
 
-users.getBy('id', 2, function(err, data) {
+db.getBy('id', 2, function(err, data) {
     // data will be:
     // [
     //      { key: "two", value: {id: 2, name: 'Level' } }
