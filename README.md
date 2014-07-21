@@ -52,8 +52,6 @@ db.put('name', 'Level', function (err) {
 })
 
 // Sublevel is also available to use for sectioning of data, similar to SQL tables
-var users = db.sublevel('users') 
-
 users.put('two', {id: 2, name: 'Level'}, function (err) {
       if (err) return console.log('Ooops!', err) // some kind of I/O error
 
@@ -63,21 +61,5 @@ users.put('two', {id: 2, name: 'Level'}, function (err) {
         console.log(value) // would output {id: 2, name: 'Level'}
       })
     })
-})
-
-// You can even use indexes from the level-mapped-index module 
-// Note: This doesn't work on the sublevels just yet, currently working on adding this
-db.registerIndex('id', function (key, value, emit) {
-    //value = JSON.parse(value) // **This would be required if we were not already using json for valueEncoding
-    if (value.id) {
-        emit(value.id)
-    }
-})
-
-db.getBy('id', 2, function(err, data) {
-    // data will be:
-    // [
-    //      { key: "two", value: {id: 2, name: 'Level' } }
-    // ]
 })
 ```

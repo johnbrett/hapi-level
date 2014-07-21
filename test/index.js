@@ -91,4 +91,32 @@ Lab.experiment('plugin', function () {
             })
         })
     });
+
+    Lab.test('Testing getSublevel method functions', function (done) {
+        server.pack.register({
+            plugin: require('../index'),
+            options: {
+                path: './data_test2',
+                config: {
+                    valueEncoding: 'json'
+                }
+            }
+        }, function(err) {
+            Lab.expect(err).to.equal(undefined);
+
+            server.start(function(){
+                var db = server.plugins['hapi-level'].db
+
+                var users = db.sublevel('users')
+
+                users.put('name', {'username':'User1', 'id': 1}, function (err) {
+                    users.get('name', function (err, value) {
+                        Lab.expect(err).to.equal(null);
+                        Lab.expect(JSON.stringify(value)).to.equal(JSON.stringify({'username':'User1', "id": 1}));
+                        done();
+                    })
+                })
+            })
+        })
+    });
 });

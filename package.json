@@ -23,9 +23,9 @@
     "test": "./node_modules/.bin/lab -c"
   },
   "dependencies": {
-    "lab": "~3.2.1",
-    "hapi": "~6.2.x",
-    "level": "~0.18.0",
-    "level-sublevel": "~5.2.0"
+    "lab": ">=3.2.1",
+    "hapi": ">=6.x.x",
+    "level": ">=0.x.x",
+    "level-sublevel": ">=5.x.x"
   }
 }
