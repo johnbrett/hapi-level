@@ -1,15 +1,16 @@
 var Lab = require('lab')
 var Hapi = require('hapi')
+var lab = exports.lab = Lab.script();
 
-Lab.experiment('hapi-level', function () {
+lab.experiment('hapi-level', function () {
     var server = null
 
-    Lab.beforeEach(function (done) {
+    lab.beforeEach(function (done) {
         server = new Hapi.Server('localhost', 8080)
         done()
     });
 
-    Lab.afterEach(function (done) {
+    lab.afterEach(function (done) {
 
         var stopServer = function(){
              server.stop(function(){
@@ -25,7 +26,7 @@ Lab.experiment('hapi-level', function () {
         }
     });
 
-    Lab.test('can register with default settings', function (done) {
+    lab.test('can register with default settings', function (done) {
         server.pack.register({
             plugin: require('../index')
         }, function(err) {
@@ -34,7 +35,7 @@ Lab.experiment('hapi-level', function () {
         })
     });
 
-    Lab.test('can register with data directory set', function (done) {
+    lab.test('can register with data directory set', function (done) {
         server.pack.register({
             plugin: require('../index'),
             options: {
@@ -46,7 +47,7 @@ Lab.experiment('hapi-level', function () {
         })
     });
 
-    Lab.test('can use regular level operations', function (done) {
+    lab.test('can use regular level operations', function (done) {
         server.pack.register({
             plugin: require('../index'),
             options: {
@@ -68,7 +69,7 @@ Lab.experiment('hapi-level', function () {
         })
     });
 
-    Lab.test('can specify extra level config such as valueEncoding', function (done) {
+    lab.test('can specify extra level config such as valueEncoding', function (done) {
         server.pack.register({
             plugin: require('../index'),
             options: {
@@ -93,7 +94,7 @@ Lab.experiment('hapi-level', function () {
         })
     });
 
-    Lab.test('can use sublevel functions as expected', function (done) {
+    lab.test('can use sublevel functions as expected', function (done) {
         server.pack.register({
             plugin: require('../index'),
             options: {
