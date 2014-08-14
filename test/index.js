@@ -2,15 +2,21 @@ var Lab = require('lab')
 var Hapi = require('hapi')
 var lab = exports.lab = Lab.script();
 
-lab.experiment('hapi-level', function () {
+var describe = lab.describe;
+var it = lab.it;
+var beforeEach = lab.beforeEach;
+var afterEach = lab.afterEach;
+var expect = Lab.expect;
+
+describe('hapi-level', function () {
     var server = null
 
-    lab.beforeEach(function (done) {
+    beforeEach(function (done) {
         server = new Hapi.Server('localhost', 8080)
         done()
     });
 
-    lab.afterEach(function (done) {
+    afterEach(function (done) {
 
         var stopServer = function(){
              server.stop(function(){
@@ -26,42 +32,42 @@ lab.experiment('hapi-level', function () {
         }
     });
 
-    lab.test('can register with default settings', function (done) {
+    it('can register with default settings', function (done) {
         server.pack.register({
             plugin: require('../index')
         }, function(err) {
-            Lab.expect(err).to.equal(undefined)
+            expect(err).to.equal(undefined)
             done()
         })
     });
 
-    lab.test('can register with data directory set', function (done) {
+    it('can register with data directory set', function (done) {
         server.pack.register({
             plugin: require('../index'),
             options: {
                 path: './data'
             }
         }, function(err) {
-            Lab.expect(err).to.equal(undefined)
+            expect(err).to.equal(undefined)
             done()
         })
     });
 
-    lab.test('can use regular level operations', function (done) {
+    it('can use regular level operations', function (done) {
         server.pack.register({
             plugin: require('../index'),
             options: {
                 path: './data'
             }
         }, function(err) {
-            Lab.expect(err).to.equal(undefined);
+            expect(err).to.equal(undefined);
 
             server.start(function(){
                 var db = server.plugins['hapi-level'].db
 
                 db.put('name', 'Level', function (err) {
                     db.get('name', function (err, value) {
-                        Lab.expect(value).to.equal('Level')
+                        expect(value).to.equal('Level')
                         done()
                     })
                 })
@@ -69,7 +75,7 @@ lab.experiment('hapi-level', function () {
         })
     });
 
-    lab.test('can specify extra level config such as valueEncoding', function (done) {
+    it('can specify extra level config such as valueEncoding', function (done) {
         server.pack.register({
             plugin: require('../index'),
             options: {
@@ -86,7 +92,7 @@ lab.experiment('hapi-level', function () {
 
                 db.put('name', 'Level', function (err) {
                     db.get('name', function (err, value) {
-                        Lab.expect(value).to.equal('Level')
+                        expect(value).to.equal('Level')
                         done()
                     })
                 })
@@ -94,7 +100,7 @@ lab.experiment('hapi-level', function () {
         })
     });
 
-    lab.test('can use sublevel functions as expected', function (done) {
+    it('can use sublevel functions as expected', function (done) {
         server.pack.register({
             plugin: require('../index'),
             options: {
@@ -104,7 +110,7 @@ lab.experiment('hapi-level', function () {
                 }
             }
         }, function(err) {
-            Lab.expect(err).to.equal(undefined);
+            expect(err).to.equal(undefined);
 
             server.start(function(){
                 var db = server.plugins['hapi-level'].db
@@ -113,8 +119,8 @@ lab.experiment('hapi-level', function () {
 
                 users.put('name', {'username':'User1', 'id': 1}, function (err) {
                     users.get('name', function (err, value) {
-                        Lab.expect(err).to.equal(null);
-                        Lab.expect(JSON.stringify(value)).to.equal(JSON.stringify({'username':'User1', "id": 1}))
+                        expect(err).to.equal(null);
+                        expect(JSON.stringify(value)).to.equal(JSON.stringify({'username':'User1', "id": 1}))
                         done()
                     });
                 })
