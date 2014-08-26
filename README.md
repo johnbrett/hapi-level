@@ -6,7 +6,7 @@ A simple LevelDB plugin for Hapi.
 [![Build Status](https://travis-ci.org/johnbrett/hapi-level.svg?branch=master)](https://travis-ci.org/johnbrett/hapi-level) [![Dependency Status](https://david-dm.org/johnbrett/hapi-level.svg)](https://david-dm.org/johnbrett/hapi-level)
 
 
-** Note: ** The sublevel dependency has intentionally been left at 5.x.x as the upgrade from 5.x.x to 6.x.x contains breaking changes and incompatible databases. I will look to upgrade once version 6 has settled and all unit tests pass.
+**Note:** The sublevel dependency has intentionally been left at 5.x.x as the upgrade from 5.x.x to 6.x.x contains breaking changes and incompatible databases. I will look to upgrade once version 6 has settled and all unit tests pass.
 
 
 [![NPM](https://nodei.co/npm/hapi-level.png?stars&downloads)](https://nodei.co/npm/hapi-level/)
