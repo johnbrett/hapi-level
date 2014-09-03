@@ -27,7 +27,7 @@
     "level-sublevel": "5.x.x"
   },
   "devDependencies": {
-    "lab": "4.0.x",
-    "hapi": "6.5.x"
+    "lab": "4.2.x",
+    "hapi": "6.7.x"
   }
 }
