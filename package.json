@@ -1,6 +1,6 @@
 {
   "name": "hapi-level",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "LevelDB service provider",
   "main": "index.js",
   "author": "John Brett",
@@ -27,7 +27,7 @@
     "level-sublevel": "5.x.x"
   },
   "devDependencies": {
-    "lab": "4.2.x",
-    "hapi": "6.7.x"
+    "lab": "4.x.x",
+    "hapi": "6.x.x"
   }
 }
