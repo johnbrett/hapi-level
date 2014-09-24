@@ -24,7 +24,8 @@
   },
   "dependencies": {
     "level": "0.18.x",
-    "level-sublevel": "5.x.x"
+    "level-sublevel": "5.x.x",
+    "coveralls": "~2.11.2"
   },
   "devDependencies": {
     "lab": "4.x.x",
