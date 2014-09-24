@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/johnbrett/hapi-level",
   "scripts": {
-    "test": "./node_modules/.bin/lab -c"
+    "test": "./node_modules/.bin/lab -r lcov | ./node_modules/.bin/coveralls"
   },
   "dependencies": {
     "level": "0.18.x",
