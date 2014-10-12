@@ -29,6 +29,6 @@
   },
   "devDependencies": {
     "lab": "4.x.x",
-    "hapi": "6.x.x"
+    "hapi": ">=6.x.x < 8.x.x"
   }
 }
