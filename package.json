@@ -1,6 +1,6 @@
 {
   "name": "hapi-level",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "LevelDB service provider",
   "main": "index.js",
   "author": "John Brett",
@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/johnbrett/hapi-level",
   "scripts": {
-    "test": "./node_modules/.bin/lab -r lcov | ./node_modules/.bin/coveralls"
+    "test": "./node_modules/.bin/lab -c"
   },
   "dependencies": {
     "level": "0.18.x",
