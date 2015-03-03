@@ -1,12 +1,13 @@
 var Lab = require('lab')
 var Hapi = require('hapi')
+var Code = require('code')
 var lab = exports.lab = Lab.script();
 
 var describe = lab.describe;
 var it = lab.it;
 var beforeEach = lab.beforeEach;
 var afterEach = lab.afterEach;
-var expect = Lab.expect;
+var expect = Code.expect;
 
 describe('hapi-level', function () {
     var server = null
@@ -85,7 +86,7 @@ describe('hapi-level', function () {
                 }
             }
         }, function(err) {
-            Lab.expect(err).to.equal(undefined);
+            expect(err).to.equal(undefined);
 
             server.start(function(){
                 var db = server.plugins['hapi-level'].db
