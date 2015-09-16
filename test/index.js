@@ -1,131 +1,151 @@
-var Lab = require('lab')
-var Hapi = require('hapi')
-var Code = require('code')
+var Lab = require('lab');
+var Hapi = require('hapi');
+var Code = require('code');
+var HapiLevel = require('..');
+var RimRaf = require('rimraf');
+var Fs = require('fs');
 var lab = exports.lab = Lab.script();
 
 var describe = lab.describe;
 var it = lab.it;
+var before = lab.before;
+var after = lab.after;
 var beforeEach = lab.beforeEach;
 var afterEach = lab.afterEach;
 var expect = Code.expect;
 
 describe('hapi-level', function () {
-    var server = null
+
+    var server = null;
+    var path = './data';
+
+    before(function (done) {
+
+        RimRaf.sync(path);
+        Fs.mkdirSync(path);
+        done();
+    });
 
     beforeEach(function (done) {
-        server = new Hapi.Server('localhost', 8080)
-        done()
+
+        server = new Hapi.Server();
+        server.connection();
+        done();
     });
 
     afterEach(function (done) {
 
-        var stopServer = function(){
-             server.stop(function(){
-                 server = null
-                 done()
-             });
-        };
-
-        if(server.plugins['hapi-level']){
-            server.plugins['hapi-level'].db.close(stopServer)
-        } else {
-            stopServer()
-        }
+        server = null;
+        done();
     });
 
-    it('can register with default settings', function (done) {
-        server.pack.register({
-            plugin: require('../index')
-        }, function(err) {
-            expect(err).to.equal(undefined)
-            done()
-        })
+    after(function (done) {
+
+        RimRaf.sync(path);
+        done();
     });
 
-    it('can register with data directory set', function (done) {
-        server.pack.register({
-            plugin: require('../index'),
+    it('can register with default settings', { parallel: false }, function (done) {
+
+        server.register( HapiLevel, function (err) {
+
+            expect(err).to.equal(undefined);
+            done();
+        });
+    });
+
+    it('can register with data directory set', { parallel: false }, function (done) {
+
+        server.register({
+            register: HapiLevel,
             options: {
-                path: './data'
+                path: path + '/db1'
             }
-        }, function(err) {
-            expect(err).to.equal(undefined)
-            done()
-        })
+        }, function (err) {
+
+            expect(err).to.equal(undefined);
+            done();
+        });
     });
 
-    it('can use regular level operations', function (done) {
-        server.pack.register({
-            plugin: require('../index'),
+    it('can use regular level operations', { parallel: false }, function (done) {
+
+        server.register({
+            register: HapiLevel,
             options: {
-                path: './data'
+                path: path + '/db2'
             }
-        }, function(err) {
+        }, function (err) {
+
             expect(err).to.equal(undefined);
 
-            server.start(function(){
-                var db = server.plugins['hapi-level'].db
+            var db = server.plugins['hapi-level'].db;
 
-                db.put('name', 'Level', function (err) {
-                    db.get('name', function (err, value) {
-                        expect(value).to.equal('Level')
-                        done()
-                    })
-                })
-            })
-        })
+            db.put('name', 'Level', function (err) {
+
+                db.get('name', function (err, value) {
+
+                    expect(value).to.equal('Level');
+                    done();
+                });
+            });
+        });
     });
 
-    it('can specify extra level config such as valueEncoding', function (done) {
-        server.pack.register({
-            plugin: require('../index'),
+    it('can specify extra level config such as valueEncoding', { parallel: false }, function (done) {
+
+        server.register({
+            register: HapiLevel,
             options: {
-                path: './data/test2',
+                path: path + '/db3',
                 config: {
                     valueEncoding: 'json'
                 }
             }
-        }, function(err) {
+        }, function (err) {
+
             expect(err).to.equal(undefined);
 
-            server.start(function(){
-                var db = server.plugins['hapi-level'].db
+            var db = server.plugins['hapi-level'].db;
 
-                db.put('name', 'Level', function (err) {
-                    db.get('name', function (err, value) {
-                        expect(value).to.equal('Level')
-                        done()
-                    })
-                })
-            })
-        })
+            db.put('name', 'Level', function (err) {
+
+                db.get('name', function (err, value) {
+
+                    expect(value).to.equal('Level');
+                    done();
+                });
+            });
+        });
     });
 
-    it('can use sublevel functions as expected', function (done) {
-        server.pack.register({
-            plugin: require('../index'),
+    it('can use sublevel functions as expected', { parallel: false }, function (done) {
+
+        server.register({
+            register: HapiLevel,
             options: {
-                path: './data/test2',
+                path: path + '/db4',
                 config: {
                     valueEncoding: 'json'
                 }
             }
-        }, function(err) {
+        }, function (err) {
+
             expect(err).to.equal(undefined);
 
-            server.start(function(){
-                var db = server.plugins['hapi-level'].db
+            var db = server.plugins['hapi-level'].db;
 
-                var users = db.sublevel('users')
+            var users = db.sublevel('users');
 
-                users.put('name', {'username':'User1', 'id': 1}, function (err) {
-                    users.get('name', function (err, value) {
-                        expect(err).to.equal(null);
-                        expect(JSON.stringify(value)).to.equal(JSON.stringify({'username':'User1', "id": 1}))
-                        done()
-                    });
-                })
-            })
-        })
+            users.put('name', { username:'User1', id: 1 }, function (err) {
+
+                users.get('name', function (err, value) {
+
+                    expect(err).to.equal(null);
+                    expect(JSON.stringify(value)).to.equal(JSON.stringify({ username:'User1', id: 1 }));
+                    done();
+                });
+            });
+        });
     });
 });
