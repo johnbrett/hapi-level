@@ -5,19 +5,18 @@ A simple LevelDB plugin for Hapi.
 
 [![Build Status](https://travis-ci.org/johnbrett/hapi-level.svg?branch=master)](https://travis-ci.org/johnbrett/hapi-level) [![Dependency Status](https://david-dm.org/johnbrett/hapi-level.svg)](https://david-dm.org/johnbrett/hapi-level)
 
-
-**Note:** The sublevel dependency has intentionally been left at 5.x.x as the upgrade from 5.x.x to 6.x.x contains breaking changes and incompatible databases. I will look to upgrade once version 6 has settled and all unit tests pass.
-
+**Note:** Sublevel has been updated to v6 in version `3.0.0` which has breaking changes which will corrupt a pre version 6 database, read about the [sublevel breaking changes](https://www.npmjs.com/package/level-sublevel) before updating, there is a [migration tool](https://github.com/calvinmetcalf/sublevel-migrate) to help with the upgrade.
 
 [![NPM](https://nodei.co/npm/hapi-level.png?stars&downloads)](https://nodei.co/npm/hapi-level/)
 
 Register plugin as follows, an optional options object can be passed in to specify data storage location 'path', and the config object supports all [LevelUp](https://github.com/rvagg/node-levelup) options:
 
 ```javascript
-var server = Hapi.createServer('0.0.0.0', 8000);
-server.pack.register([
+var server = Hapi.createServer();
+server.connection();
+server.register([
     { 
-        plugin: require('hapi-level'),
+        register: require('hapi-level'),
         options: {
             path: './data', // ./data by default
             config: {
