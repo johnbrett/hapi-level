@@ -35,7 +35,7 @@ describe('hapi-level', () => {
 
     it('can register with default settings', { parallel: false }, (done) => {
 
-        server.register( HapiLevel, (err) => {
+        server.register(HapiLevel, (err) => {
 
             expect(err).to.equal(undefined);
             done();
@@ -65,16 +65,19 @@ describe('hapi-level', () => {
             }
         }, (err) => {
 
-            expect(err).to.equal(undefined);
+            server.initialize((err) => {
 
-            const db = server.plugins['hapi-level'].db;
+                expect(err).to.equal(undefined);
 
-            db.put('name', 'Level', (err) => {
+                const db = server.plugins['hapi-level'].db;
 
-                db.get('name', (err, value) => {
+                db.put('name', 'Level', (err) => {
 
-                    expect(value).to.equal('Level');
-                    done();
+                    db.get('name', (err, value) => {
+
+                        expect(value).to.equal('Level');
+                        done();
+                    });
                 });
             });
         });
@@ -92,16 +95,19 @@ describe('hapi-level', () => {
             }
         }, (err) => {
 
-            expect(err).to.equal(undefined);
+            server.initialize((err) => {
 
-            const db = server.plugins['hapi-level'].db;
+                expect(err).to.equal(undefined);
 
-            db.put('name', 'Level', (err) => {
+                const db = server.plugins['hapi-level'].db;
 
-                db.get('name', (err, value) => {
+                db.put('name', 'Level', (err) => {
 
-                    expect(value).to.equal('Level');
-                    done();
+                    db.get('name', (err, value) => {
+
+                        expect(value).to.equal('Level');
+                        done();
+                    });
                 });
             });
         });
@@ -119,19 +125,21 @@ describe('hapi-level', () => {
             }
         }, (err) => {
 
-            expect(err).to.equal(undefined);
+            server.initialize((err) => {
 
-            const db = server.plugins['hapi-level'].db;
+                expect(err).to.equal(undefined);
 
-            const users = db.sublevel('users');
+                const db = server.plugins['hapi-level'].db;
+                const users = db.sublevel('users');
 
-            users.put('name', { username:'User1', id: 1 }, (err) => {
+                users.put('name', { username:'User1', id: 1 }, (err) => {
 
-                users.get('name', (err, value) => {
+                    users.get('name', (err, value) => {
 
-                    expect(err).to.equal(null);
-                    expect(JSON.stringify(value)).to.equal(JSON.stringify({ username:'User1', id: 1 }));
-                    done();
+                        expect(err).to.equal(null);
+                        expect(JSON.stringify(value)).to.equal(JSON.stringify({ username:'User1', id: 1 }));
+                        done();
+                    });
                 });
             });
         });

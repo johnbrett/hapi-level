@@ -12,8 +12,11 @@ A simple LevelDB plugin for Hapi.
 Register plugin as follows, an optional options object can be passed in to specify data storage location 'path', and the config object supports all [LevelUp](https://github.com/rvagg/node-levelup) options:
 
 ```javascript
+const Hapi = require('hapi');
+
 var server = Hapi.createServer();
 server.connection();
+
 server.register([
     { 
         register: require('hapi-level'),
@@ -24,45 +27,69 @@ server.register([
             }
         } 
     }
-  ], function() {
-    server.start(function () {
+], (err) => {
+    
+    if (err) {
+        throw err;
+    }
+    
+    server.start((err) => {
+    
+        if (err) {
+            throw err;
+        }
         console.log('Server started at: ' + server.info.uri);
     })
-}
+};
 ```
 
 To use plugin:
 
 ```javascript
 
+// New in 5.0: Make sure either `server.initialize()` or `server.start()` has been called 
+// to have access to the db reference
+
 // Accessing level object
-var db = request.server.plugins['hapi-level'] // access from a request object
+const db = request.server.plugins['hapi-level'].db; // access from a request object
 
 // or
 
-var db = plugin.plugins['hapi-level'].db // access in a hapi plugin
+const db = plugin.plugins['hapi-level'].db; // access in a hapi plugin
 
 // Usage works just like LevelDB would
-db.put('name', 'Level', function (err) {
-      if (err) return console.log('Ooops!', err) // some kind of I/O error
-
-      db.get('two', function (err, value) {
-        if (err) return console.log('Ooops!', err) // likely the key was not found
-
-        console.log('name=' + value)
-      })
-    })
-})
+db.put('name', 'Level', (err) => {
+    
+        if (err) {
+            return console.log('Ooops!', err); // some kind of I/O error
+        }
+    
+        db.get('two', (err, value) => {
+            
+            if (err) {
+                return console.log('Ooops!', err); // likely the key was not found
+            }
+    
+            console.log('name=' + value);
+        });
+    });
+});
 
 // Sublevel is also available to use for sectioning of data, similar to SQL tables
-users.put('two', {id: 2, name: 'Level'}, function (err) {
-      if (err) return console.log('Ooops!', err) // some kind of I/O error
-
-      users.get('two', function (err, value) {
-        if (err) return console.log('Ooops!', err) // likely the key was not found
-
-        console.log(value) // would output {id: 2, name: 'Level'}
-      })
-    })
-})
+users.put('two', {id: 2, name: 'Level'}, (err) => {
+      
+        if (err) {
+            return console.log('Ooops!', err); // some kind of I/O error
+        }
+    
+        users.get('two', (err, value) => {
+            
+            if (err) {
+                return console.log('Ooops!', err); // likely the key was not found
+            }
+    
+            console.log(value); // would output {id: 2, name: 'Level'}
+        });
+    });
+});
 ```
