@@ -51,7 +51,7 @@ describe('hapi-level', () => {
             }
         }, (err) => {
 
-            expect(err).to.equal(undefined);
+            expect(err).to.not.exist();
             done();
         });
     });
@@ -65,16 +65,21 @@ describe('hapi-level', () => {
             }
         }, (err) => {
 
+            expect(err).to.not.exist();
+
             server.initialize((err) => {
 
-                expect(err).to.equal(undefined);
+                expect(err).to.not.exist();
 
                 const db = server.plugins['hapi-level'].db;
 
                 db.put('name', 'Level', (err) => {
 
+                    expect(err).to.not.exist();
+
                     db.get('name', (err, value) => {
 
+                        expect(err).to.not.exist();
                         expect(value).to.equal('Level');
                         done();
                     });
@@ -95,16 +100,21 @@ describe('hapi-level', () => {
             }
         }, (err) => {
 
+            expect(err).to.not.exist();
+
             server.initialize((err) => {
 
-                expect(err).to.equal(undefined);
+                expect(err).to.not.exist();
 
                 const db = server.plugins['hapi-level'].db;
 
                 db.put('name', 'Level', (err) => {
 
+                    expect(err).to.not.exist();
+
                     db.get('name', (err, value) => {
 
+                        expect(err).to.not.exist();
                         expect(value).to.equal('Level');
                         done();
                     });
@@ -125,18 +135,22 @@ describe('hapi-level', () => {
             }
         }, (err) => {
 
+            expect(err).to.not.exist();
+
             server.initialize((err) => {
 
-                expect(err).to.equal(undefined);
+                expect(err).to.not.exist();
 
                 const db = server.plugins['hapi-level'].db;
                 const users = db.sublevel('users');
 
                 users.put('name', { username:'User1', id: 1 }, (err) => {
 
+                    expect(err).to.not.exist();
+
                     users.get('name', (err, value) => {
 
-                        expect(err).to.equal(null);
+                        expect(err).to.not.exist();
                         expect(JSON.stringify(value)).to.equal(JSON.stringify({ username:'User1', id: 1 }));
                         done();
                     });

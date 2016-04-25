@@ -27,12 +27,12 @@
     "test-cov-html": "lab -a code -r html -o coverage.html"
   },
   "dependencies": {
-    "code": "1.x.x",
-    "level": "^1.3.0",
-    "level-sublevel": "^6.5.1"
+    "level": "^1.4.0",
+    "level-sublevel": "^6.5.4"
   },
   "devDependencies": {
-    "hapi": "^11.x.x",
-    "lab": "^7.x.x"
+    "code": "^2.2.0",
+    "hapi": "^13.3.0",
+    "lab": "^10.3.1"
   }
 }
